@@ -7,8 +7,8 @@ Author(s): Matthew Loper
 See LICENCE.txt for licensing and contact information.
 """
 
+from __future__ import division
 __all__ = ['ColoredRenderer', 'TexturedRenderer', 'DepthRenderer']
-
 import numpy as np
 from .cvwrap import cv2
 import time
@@ -302,9 +302,9 @@ class ColoredRenderer(BaseRenderer):
 
         if wrt is self.camera:
             if self.overdraw:
-                return common.dImage_wrt_2dVerts_bnd(color, visible, visibility, barycentric, self.frustum['width'], self.frustum['height'], self.v.r.size/3, self.f, self.boundaryid_image != 4294967295)
+                return common.dImage_wrt_2dVerts_bnd(color, visible, visibility, barycentric, self.frustum['width'], self.frustum['height'], self.v.r.size//3, self.f, self.boundaryid_image != 4294967295)
             else:
-                return common.dImage_wrt_2dVerts(color, visible, visibility, barycentric, self.frustum['width'], self.frustum['height'], self.v.r.size/3, self.f)
+                return common.dImage_wrt_2dVerts(color, visible, visibility, barycentric, self.frustum['width'], self.frustum['height'], self.v.r.size//3, self.f)
 
         elif wrt is self.vc:
             return common.dr_wrt_vc(visible, visibility, self.f, barycentric, self.frustum, self.vc.size, num_channels=self.num_channels)
@@ -497,7 +497,7 @@ class TexturedRenderer(ColoredRenderer):
     # Depends on 'f' because vpe/fpe depend on f
     @depends_on('vt', 'ft', 'f')
     def wireframe_tex_coords(self):
-        vvt = np.zeros((self.v.r.size/3,2), dtype=np.float32, order='C')
+        vvt = np.zeros((self.v.r.size//3,2), dtype=np.float32, order='C')
         vvt[self.f.flatten()] = self.mesh_tex_coords
         edata = np.zeros((self.vpe.size,2), dtype=np.float32, order='C')
         edata = vvt[self.vpe.ravel()]

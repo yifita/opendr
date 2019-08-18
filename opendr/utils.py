@@ -25,7 +25,7 @@ def wget(url, dest_fname=None):
 
     curdir = split(__file__)[0]
     print(url)
-    
+
 
     if dest_fname is None:
         dest_fname = join(curdir, split(url)[1])
@@ -34,4 +34,4 @@ def wget(url, dest_fname=None):
         contents = urlopen(url).read()
     except:
         raise Exception('Unable to get url: %s' % (url,))
-    open(dest_fname, 'w').write(contents)
+    open(dest_fname, 'wb').write(contents)
